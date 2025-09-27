@@ -1,432 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GST Calculator</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #ffffff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        .card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #00796b;
-        }
-        
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 15px;
-            color: #333;
-        }
-        
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 15px;
-            border-radius: 10px;
-            border: 1px solid #b2dfdb;
-            margin-top: 6px;
-            outline: none;
-            transition: all 0.2s ease;
-        }
-        
-        input:focus {
-            border-color: #00796b;
-            box-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
-        }
-        
-        .row {
-            display: flex;
-            gap: 10px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .rateBtn {
-            padding: 10px 14px;
-            border-radius: 12px;
-            border: 1px solid #b2dfdb;
-            cursor: pointer;
-            background: #e0f2f1;
-            color: #004d40;
-            transition: all 0.2s ease;
-            font-weight: 600;
-        }
-        
-        .rateBtn.active,
-        .rateBtn:hover {
-            background: #00796b;
-            color: #fff;
-            border-color: #00796b;
-        }
-        
-        .switchRow {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .switchBtn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #b2dfdb;
-            cursor: pointer;
-            text-align: center;
-            background: #e0f2f1;
-            color: #004d40;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-        
-        .switchBtn.active {
-            background: #00796b;
-            color: #fff;
-            border-color: #00796b;
-        }
-        
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f1f8e9;
-            border-radius: 12px;
-            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .result div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .langRow {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        
-        .langBtn {
-            padding: 8px 12px;
-            border: 1px solid #b2dfdb;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #e0f2f1;
-            color: #004d40;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-        
-        .langBtn:hover {
-            background: #00796b;
-            color: #fff;
-            border-color: #00796b;
-        }
-        
-        .updateCard {
-            background: #e3f2fd;
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 20px;
-            border: 1px solid #90caf9;
-            cursor: pointer;
-        }
-        
-        .updateCard h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #1565c0;
-        }
-        
-        .updateCard p {
-            font-size: 13px;
-            color: #0d47a1;
-            display: none;
-            margin-top: 8px;
-        }
-        
-        .clearBtn {
-            margin-top: 15px;
-            background: #ef5350;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            transition: 0.3s;
-        }
-        
-        .clearBtn:hover {
-            background: #d32f2f;
-        }
-        
-        .toast {
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #00796b;
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 6px;
-            opacity: 0;
-            transition: all 0.5s;
-            font-size: 14px;
-        }
-        
-        .toast.show {
-            top: -60px;
-            opacity: 1;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GST Calculator</title>
+  <style>
+    /* === Global Styles === */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* === Card Container === */
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    /* === Headings & Labels === */
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #00796b;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    /* === Inputs & Select === */
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid #b2dfdb;
+      margin-top: 6px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    input:focus {
+      border-color: #00796b;
+      box-shadow: 0 0 5px rgba(0, 121, 107, 0.3);
+    }
+
+    /* === Buttons === */
+    .row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .rateBtn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #b2dfdb;
+      cursor: pointer;
+      background: #e0f2f1;
+      color: #004d40;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .rateBtn.active,
+    .rateBtn:hover {
+      background: #00796b;
+      color: #fff;
+      border-color: #00796b;
+    }
+
+    .switchRow {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .switchBtn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #b2dfdb;
+      cursor: pointer;
+      text-align: center;
+      background: #e0f2f1;
+      color: #004d40;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    .switchBtn.active {
+      background: #00796b;
+      color: #fff;
+      border-color: #00796b;
+    }
+
+    /* === Results === */
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f8e9;
+      border-radius: 12px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 0.4s ease;
+    }
+    .result div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    /* === Language Buttons === */
+    .langRow {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .langBtn {
+      padding: 8px 12px;
+      border: 1px solid #b2dfdb;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #e0f2f1;
+      color: #004d40;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    .langBtn:hover {
+      background: #00796b;
+      color: #fff;
+      border-color: #00796b;
+    }
+
+    /* === Updates Section === */
+    .updateCard {
+      background: #e3f2fd;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 20px;
+      border: 1px solid #90caf9;
+      cursor: pointer;
+    }
+    .updateCard h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #1565c0;
+    }
+    .updateCard p {
+      font-size: 13px;
+      color: #0d47a1;
+      display: none;
+      margin-top: 8px;
+    }
+
+    /* === Utility Buttons === */
+    .clearBtn {
+      margin-top: 15px;
+      background: #ef5350;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      transition: 0.3s;
+    }
+    .clearBtn:hover {
+      background: #d32f2f;
+    }
+
+    /* === Toast Message === */
+    .toast {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #00796b;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 6px;
+      opacity: 0;
+      transition: all 0.5s;
+      font-size: 14px;
+    }
+    .toast.show {
+      top: -60px;
+      opacity: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="card">
-        <div class="toast" id="toast">Language changed</div>
+  <div class="card">
+    <div class="toast" id="toast">Language changed</div>
+    <h1 id="title">GST Calculator</h1>
 
-        <h1 id="title">GST Calculator</h1>
+    <label id="labelAmount">Amount (Exclusive)</label>
+    <input type="number" id="amount" placeholder="Enter amount" />
 
-        <label id="labelAmount">Amount (Exclusive)</label>
-        <input type="number" id="amount" placeholder="Enter amount" />
+    <label id="labelRate">GST Rate (%)</label>
+    <div class="row" id="presetRates"></div>
+    <input type="number" id="customRate" placeholder="Custom rate" style="margin-top:6px;" />
 
-        <label id="labelRate">GST Rate (%)</label>
-        <div class="row" id="presetRates"></div>
-        <input type="number" id="customRate" placeholder="Custom rate" style="margin-top:6px;" />
-
-        <div class="switchRow">
-            <div id="exclusiveBtn" class="switchBtn active">Exclusive (Add GST)</div>
-            <div id="inclusiveBtn" class="switchBtn">Inclusive</div>
-        </div>
-
-        <div class="result" id="result">
-            <div><span>Taxable Value</span><span>₹0.00</span></div>
-            <div><span>GST Amount</span><span>₹0.00</span></div>
-            <div><span>Total</span><span>₹0.00</span></div>
-        </div>
-
-        <button class="clearBtn" id="clearBtn">Clear</button>
-
-        <div class="updateCard" id="gstUpdate">
-            <h3>Latest GST Updates 2025 ⬇</h3>
-            <p>Key updates: 5% & 18% standard rates, 40% on luxury goods, GST cut on cars, electronics, essential goods, and insurance. More info: <a href="https://www.ndtv.com/india-news/new-gst-2-0-rates-live-updates-gst-slabs-reduction-tax-pm-modi-nirmala-sitharaman-taxation-reforms-22-september-2025-cars-bikes-milk-grocery-flight-ti-9319599"
-                    target="_blank">Click here</a></p>
-        </div>
-
-        <div class="langRow">
-            <div class="langBtn" data-lang="en">English</div>
-            <div class="langBtn" data-lang="ta">தமிழ்</div>
-            <div class="langBtn" data-lang="hi">हिन्दी</div>
-            <div class="langBtn" data-lang="ml">മലയാളം</div>
-        </div>
+    <div class="switchRow">
+      <div id="exclusiveBtn" class="switchBtn active">Exclusive (Add GST)</div>
+      <div id="inclusiveBtn" class="switchBtn">Inclusive</div>
     </div>
 
-    <script>
-        const strings = {
-            en: {
-                title: 'GST Calculator',
-                exclusive: 'Exclusive (Add GST)',
-                inclusive: 'Inclusive',
-                taxable: 'Taxable Value',
-                gst: 'GST Amount',
-                total: 'Total',
-                updateTitle: 'Latest GST Updates 2025',
-                updateText: 'Key updates: 5% & 18% standard rates, 40% on luxury goods, GST cut on cars, electronics, essential goods, and insurance. More info: '
-            },
-            hi: {
-                title: 'जीएसटी कैलकुलेटर',
-                exclusive: 'विशेष (GST जोड़ें)',
-                inclusive: 'शामिल',
-                taxable: 'कर योग्य मूल्य',
-                gst: 'जीएसटी राशि',
-                total: 'कुल',
-                updateTitle: '2025 के नवीनतम जीएसटी अपडेट',
-                updateText: 'मुख्य अपडेट: मानक दरें 5% और 18%, लक्ज़री वस्तुओं पर 40%, कारों, इलेक्ट्रॉनिक्स, आवश्यक वस्तुएं और बीमा पर जीएसटी कटौती। अधिक जानकारी: '
-            },
-            ta: {
-                title: 'ஜிஎஸ்டி கணக்கீடு',
-                exclusive: 'தனிப்பட்டது (GST சேர்க்கவும்)',
-                inclusive: 'சேர்ந்தது',
-                taxable: 'வரி மதிப்பு',
-                gst: 'ஜிஎஸ்டி தொகை',
-                total: 'மொத்தம்',
-                updateTitle: '2025 ஆம் ஆண்டின் சமீபத்திய ஜிஎஸ்டி புதுப்பிப்புகள்',
-                updateText: 'முக்கிய புதுப்பிப்புகள்: 5% மற்றும் 18% நிலையான விகிதங்கள், ஆடம்பர பொருட்களுக்கு 40%, கார்கள், மின் உபகரணங்கள், அவசியமான பொருட்கள் மற்றும் காப்பீட்டில் GST குறைப்பு. மேலதிக தகவல்: '
-            },
-            ml: {
-                title: 'ജി.എസ്.ടി കാൽക്കുലേറ്റർ',
-                exclusive: 'പ്രത്യേകം (GST ചേർക്കുക)',
-                inclusive: 'സമാഹിതം',
-                taxable: 'നികുതി യോഗ്യമായ മൂല്യം',
-                gst: 'ജിഎസ്ടി തുക',
-                total: 'മൊത്തം',
-                updateTitle: '2025 ലെ പുതിയ ജിഎസ്ടി അപ്ഡേറ്റുകൾ',
-                updateText: 'പ്രധാന അപ്ഡേറ്റുകൾ: സാധാരണ നിരക്ക് 5% & 18%, ആഡംബര വസ്തുക്കൾക്ക് 40%, കാർസ്, ഇലക്ട്രോണിക്സ്, ആവശ്യമുള്ള സാധനങ്ങൾ, ഇൻഷുറൻസ് എന്നിവയിൽ ജിഎസ്ടി കുറവ്. കൂടുതൽ വിവരങ്ങൾക്ക്: '
-            }
-        };
+    <label>Transaction Type</label>
+    <select id="txnType">
+      <option value="intra">Intra-State</option>
+      <option value="inter">Inter-State</option>
+    </select>
 
-        let lang = 'en';
-        let isInclusive = false;
-        const presetRates = [5, 12, 18, 28];
+    <div class="result" id="result"></div>
 
-        const amountEl = document.getElementById('amount');
-        const customRateEl = document.getElementById('customRate');
-        const presetEl = document.getElementById('presetRates');
-        const exclusiveBtn = document.getElementById('exclusiveBtn');
-        const inclusiveBtn = document.getElementById('inclusiveBtn');
-        const resultEl = document.getElementById('result');
-        const titleEl = document.getElementById('title');
-        const labelAmount = document.getElementById('labelAmount');
-        const gstUpdateEl = document.getElementById('gstUpdate');
-        const clearBtn = document.getElementById('clearBtn');
-        const toast = document.getElementById('toast');
+    <button class="clearBtn" id="clearBtn">Clear</button>
 
-        function formatCurrency(num) {
-            return new Intl.NumberFormat('en-IN', {
-                style: 'currency',
-                currency: 'INR'
-            }).format(num);
+    <div class="updateCard" id="gstUpdate">
+      <h3>Latest GST Updates 2025 ⬇</h3>
+      <p>
+        Key updates: 5% & 18% standard rates, 40% on luxury goods, GST cut on cars, electronics, essential goods, and insurance.
+        More info: 
+        <a href="https://www.ndtv.com/india-news/new-gst-2-0-rates-live-updates-gst-slabs-reduction-tax-pm-modi-nirmala-sitharaman-taxation-reforms-22-september-2025-cars-bikes-milk-grocery-flight-ti-9319599" target="_blank">Click here</a>
+      </p>
+    </div>
+
+    <div class="langRow">
+      <div class="langBtn" data-lang="en">English</div>
+      <div class="langBtn" data-lang="ta">தமிழ்</div>
+      <div class="langBtn" data-lang="hi">हिन्दी</div>
+      <div class="langBtn" data-lang="ml">മലയാളം</div>
+    </div>
+  </div>
+
+  <script>
+    /* === Constants & State === */
+    const strings = {
+      en: {
+        title: 'GST Calculator',
+        exclusive: 'Exclusive (Add GST)',
+        inclusive: 'Inclusive',
+        taxable: 'Taxable Value',
+        cgst: 'CGST',
+        sgst: 'SGST',
+        igst: 'IGST',
+        total: 'Total',
+        updateTitle: 'Latest GST Updates 2025',
+        updateText: 'Key updates: 5% & 18% standard rates, 40% on luxury goods, GST cut on cars, electronics, essential goods, and insurance. More info: '
+      },
+      hi: {
+        title: 'जीएसटी कैलकुलेटर',
+        exclusive: 'विशेष (GST जोड़ें)',
+        inclusive: 'शामिल',
+        taxable: 'कर योग्य मूल्य',
+        cgst: 'सीजीएसटी',
+        sgst: 'एसजीएसटी',
+        igst: 'आईजीएसटी',
+        total: 'कुल',
+        updateTitle: '2025 के नवीनतम जीएसटी अपडेट',
+        updateText: 'मुख्य अपडेट: मानक दरें 5% और 18%, लक्ज़री वस्तुओं पर 40%, कारों, इलेक्ट्रॉनिक्स, आवश्यक वस्तुएं और बीमा पर जीएसटी कटौती। अधिक जानकारी: '
+      },
+      ta: {
+        title: 'ஜிஎஸ்டி கணக்கீடு',
+        exclusive: 'தனிப்பட்டது (GST சேர்க்கவும்)',
+        inclusive: 'சேர்ந்தது',
+        taxable: 'வரி மதிப்பு',
+        cgst: 'சிஜிஎஸ்டி',
+        sgst: 'எஸ்ஜிஎஸ்டி',
+        igst: 'ஐஜிஎஸ்டி',
+        total: 'மொத்தம்',
+        updateTitle: '2025 ஆம் ஆண்டின் சமீபத்திய ஜிஎஸ்டி புதுப்பிப்புகள்',
+        updateText: 'முக்கிய புதுப்பிப்புகள்: 5% மற்றும் 18% நிலையான விகிதங்கள், ஆடம்பர பொருட்களுக்கு 40%, கார்கள், மின் உபகரணங்கள், அவசியமான பொருட்கள் மற்றும் காப்பீட்டில் GST குறைப்பு. மேலதிக தகவல்: '
+      },
+      ml: {
+        title: 'ജി.എസ്.ടി കാൽക്കുലേറ്റർ',
+        exclusive: 'പ്രത്യേകം (GST ചേർക്കുക)',
+        inclusive: 'സമാഹിതം',
+        taxable: 'നികുതി യോഗ്യമായ മൂല്യം',
+        cgst: 'സിജിഎസ്ടി',
+        sgst: 'എസ്ജിഎസ്ടി',
+        igst: 'ഐജിഎസ്ടി',
+        total: 'മൊത്തം',
+        updateTitle: '2025 ലെ പുതിയ ജിഎസ്ടി അപ്ഡേറ്റുകൾ',
+        updateText: 'പ്രധാന അപ്ഡേറ്റുകൾ: സാധാരണ നിരക്ക് 5% & 18%, ആഡംബര വസ്തുക്കൾക്ക് 40%, കാർസ്, ഇലക്ട്രോണിക്സ്, ആവശ്യമുള്ള സാധനങ്ങൾ, ഇൻഷുറൻസ് എന്നിവയിൽ ജിഎസ്ടി കുറവ്. കൂടുതൽ വിവരങ്ങൾക്ക്: '
+      }
+    };
+
+    let lang = 'en';
+    let isInclusive = false;
+    const presetRates = [5, 12, 18, 28];
+
+    /* === DOM Elements === */
+    const amountEl = document.getElementById('amount');
+    const customRateEl = document.getElementById('customRate');
+    const presetEl = document.getElementById('presetRates');
+    const exclusiveBtn = document.getElementById('exclusiveBtn');
+    const inclusiveBtn = document.getElementById('inclusiveBtn');
+    const resultEl = document.getElementById('result');
+    const titleEl = document.getElementById('title');
+    const labelAmount = document.getElementById('labelAmount');
+    const gstUpdateEl = document.getElementById('gstUpdate');
+    const clearBtn = document.getElementById('clearBtn');
+    const txnType = document.getElementById('txnType');
+    const toast = document.getElementById('toast');
+
+    /* === Utility Functions === */
+    const formatCurrency = num =>
+      new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(num);
+
+    const showToast = msg => {
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    };
+
+    const updateText = () => {
+      const t = strings[lang];
+      titleEl.innerText = t.title;
+      exclusiveBtn.innerText = t.exclusive;
+      inclusiveBtn.innerText = t.inclusive;
+      labelAmount.innerText = `Amount (${isInclusive ? t.inclusive : t.exclusive})`;
+      gstUpdateEl.querySelector('h3').innerText = `${t.updateTitle} ⬇`;
+      gstUpdateEl.querySelector('p').innerHTML =
+        `${t.updateText}<a href="https://www.ndtv.com/india-news/new-gst-2-0-rates-live-updates-gst-slabs-reduction-tax-pm-modi-nirmala-sitharaman-taxation-reforms-22-september-2025-cars-bikes-milk-grocery-flight-ti-9319599" target="_blank">Click here</a>`;
+    };
+
+    /* === Core Calculation === */
+    const calcGST = () => {
+      let amt = parseFloat(amountEl.value) || 0;
+      let rate = parseFloat(customRateEl.value) || 18;
+
+      let taxable = amt;
+      let cgst = 0, sgst = 0, igst = 0, total = amt;
+
+      if (amt > 0) {
+        if (isInclusive) taxable = amt / (1 + rate / 100);
+
+        if (txnType.value === 'intra') {
+          cgst = sgst = taxable * (rate / 2) / 100;
+          igst = 0;
+        } else {
+          igst = taxable * rate / 100;
         }
 
-        function showToast(msg) {
-            toast.innerText = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
-        }
+        total = isInclusive ? amt : taxable + cgst + sgst + igst;
+      }
 
-        function updateText() {
-            const t = strings[lang];
-            titleEl.innerText = t.title;
-            exclusiveBtn.innerText = t.exclusive;
-            inclusiveBtn.innerText = t.inclusive;
-            labelAmount.innerText = `Amount (${isInclusive ? t.inclusive : t.exclusive})`;
-            gstUpdateEl.querySelector('h3').innerText = t.updateTitle + " ⬇";
-            gstUpdateEl.querySelector('p').innerHTML = `${t.updateText}<a href=\"https://www.ndtv.com/india-news/new-gst-2-0-rates-live-updates-gst-slabs-reduction-tax-pm-modi-nirmala-sitharaman-taxation-reforms-22-september-2025-cars-bikes-milk-grocery-flight-ti-9319599\" target=\"_blank\">Click here</a>`;
-        }
+      const t = strings[lang];
+      resultEl.innerHTML = `
+        <div><span>${t.taxable}</span><span>${formatCurrency(taxable)}</span></div>
+        <div><span>${t.cgst}</span><span>${formatCurrency(cgst)}</span></div>
+        <div><span>${t.sgst}</span><span>${formatCurrency(sgst)}</span></div>
+        <div><span>${t.igst}</span><span>${formatCurrency(igst)}</span></div>
+        <div><span>${t.total}</span><span>${formatCurrency(total)}</span></div>
+      `;
+    };
 
-        function calcGST() {
-            let amt = parseFloat(amountEl.value) || 0;
-            let rate = parseFloat(customRateEl.value) || 18;
-            let taxable = amt,
-                gst = 0,
-                total = amt;
+    /* === Event Listeners === */
+    // Preset GST buttons
+    presetRates.forEach(p => {
+      const btn = document.createElement('div');
+      btn.className = 'rateBtn';
+      btn.innerText = `${p}%`;
+      btn.onclick = () => {
+        customRateEl.value = p;
+        calcGST();
+        document.querySelectorAll('.rateBtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      };
+      presetEl.appendChild(btn);
+    });
 
-            if (amt > 0) {
-                if (isInclusive) {
-                    taxable = amt / (1 + rate / 100);
-                    gst = amt - taxable;
-                    total = amt;
-                } else {
-                    gst = taxable * (rate / 100);
-                    total = taxable + gst;
-                }
-            }
+    // Mode Switch
+    exclusiveBtn.onclick = () => {
+      isInclusive = false;
+      exclusiveBtn.classList.add('active');
+      inclusiveBtn.classList.remove('active');
+      updateText();
+      calcGST();
+    };
+    inclusiveBtn.onclick = () => {
+      isInclusive = true;
+      inclusiveBtn.classList.add('active');
+      exclusiveBtn.classList.remove('active');
+      updateText();
+      calcGST();
+    };
 
-            const t = strings[lang];
-            resultEl.innerHTML = `
-    <div><span>${t.taxable}</span><span>${formatCurrency(taxable)}</span></div>
-    <div><span>${t.gst}</span><span>${formatCurrency(gst)}</span></div>
-    <div><span>${t.total}</span><span>${formatCurrency(total)}</span></div>
-  `;
-        }
-
-        presetRates.forEach(p => {
-            const btn = document.createElement('div');
-            btn.className = 'rateBtn';
-            btn.innerText = p + '%';
-            btn.onclick = () => {
-                customRateEl.value = p;
-                calcGST();
-                document.querySelectorAll('.rateBtn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            };
-            presetEl.appendChild(btn);
-        });
-
-        exclusiveBtn.onclick = () => {
-            isInclusive = false;
-            exclusiveBtn.classList.add('active');
-            inclusiveBtn.classList.remove('active');
-            updateText();
-            calcGST();
-        };
-        inclusiveBtn.onclick = () => {
-            isInclusive = true;
-            inclusiveBtn.classList.add('active');
-            exclusiveBtn.classList.remove('active');
-            updateText();
-            calcGST();
-        };
-
-        document.querySelectorAll('.langBtn').forEach(el => {
-            el.onclick = () => {
-                lang = el.dataset.lang;
-                updateText();
-                calcGST();
-                showToast("Language changed to " + el.innerText);
-            };
-        });
-
-        amountEl.oninput = customRateEl.oninput = calcGST;
-
-        clearBtn.onclick = () => {
-            amountEl.value = '';
-            customRateEl.value = '';
-            document.querySelectorAll('.rateBtn').forEach(b => b.classList.remove('active'));
-            calcGST();
-        };
-
-        gstUpdateEl.onclick = () => {
-            const p = gstUpdateEl.querySelector('p');
-            p.style.display = p.style.display === 'block' ? 'none' : 'block';
-        };
-
+    // Language Switch
+    document.querySelectorAll('.langBtn').forEach(el => {
+      el.onclick = () => {
+        lang = el.dataset.lang;
         updateText();
         calcGST();
-    </script>
-</body>
+        showToast(`Language changed to ${el.innerText}`);
+      };
+    });
 
+    // Inputs
+    amountEl.oninput = customRateEl.oninput = txnType.onchange = calcGST;
+
+    // Clear Button
+    clearBtn.onclick = () => {
+      amountEl.value = '';
+      customRateEl.value = '';
+      document.querySelectorAll('.rateBtn').forEach(b => b.classList.remove('active'));
+      calcGST();
+    };
+
+    // Toggle Updates
+    gstUpdateEl.onclick = () => {
+      const p = gstUpdateEl.querySelector('p');
+      p.style.display = p.style.display === 'block' ? 'none' : 'block';
+    };
+
+    /* === Initialize === */
+    updateText();
+    calcGST();
+  </script>
+</body>
 </html>
